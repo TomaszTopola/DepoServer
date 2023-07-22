@@ -18,6 +18,6 @@ dist
 *.env
 
 #docker
-.dockerignore
-docker-compose.yaml
-Dockerfile
+# .dockerignore
+# docker-compose.yaml
+# Dockerfile
