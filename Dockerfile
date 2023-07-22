@@ -3,5 +3,5 @@ WORKDIR /usr/src/depoServer
 COPY package*.json .
 RUN npm ci
 COPY . .
-RUN npm build
-RUN npm start
+RUN npm run build
+CMD ["npm", "start"]
