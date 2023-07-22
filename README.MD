@@ -1,3 +1,3 @@
-This is server API for DepoApp. 
+App still in development
 
-It uses standard CRUD operations for easy way of managing students' deposits in dormitories of Maritime University of Szczecin
+This is server API for DepoApp. 
