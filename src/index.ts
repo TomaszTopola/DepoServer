@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv'
 import express from 'express'
 
-import MongoController from './config/mongo.controller'
+import MongoController from './common/mongo.controller'
 
 const app = express()
 dotenv.config({path: './.env'})
