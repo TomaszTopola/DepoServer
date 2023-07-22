@@ -27,6 +27,7 @@ export class DepoController extends ControllerInterface{
     async getById(req: Request, res: Response): Promise<any> {
         const depo = await DepoModel.findById(req.params.id)
         .catch(err => res.send(err))
+        if(!depo) return res.status(401).send(`[404] - depo ID ${req.params.id} not found.`)
         return res.status(200).send(depo)
     }
 
