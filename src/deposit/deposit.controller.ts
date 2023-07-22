@@ -1,11 +1,13 @@
 import { Request, Response } from "express";
 import ControllerInterface from "../common/controller.interface";
+
 import DepoModel from "./deposit.model";
+import mongoose from 'mongoose'
 
 class DepoController extends ControllerInterface{
 
     // without params
-    async getQuery(req: Request, res: Response): Promise<any> {
+    async getAll(req: Request, res: Response): Promise<any> {
         return res.status(501).send('Not implemented (yet)...')
     }
     async post(req: Request, res: Response): Promise<any> {
@@ -23,5 +25,4 @@ class DepoController extends ControllerInterface{
         return res.status(501).send('Not implemented (yet)...')
     }
 
-        
 }
