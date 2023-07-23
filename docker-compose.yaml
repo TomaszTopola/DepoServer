@@ -21,6 +21,7 @@ services:
       DB_NAME: depo
     depends_on:
       - mongo_db
+    restart: always
 
 volumes:
   mongo_db: {}
