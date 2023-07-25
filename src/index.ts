@@ -24,6 +24,9 @@ const main = async () => {
 
     app.listen(process.env.HTTP, () => console.log(`Listening on port ${process.env.HTTP}...`))
     
+    process.on('exit', () => {
+        MongoController.close()
+    })
 }
 
 main()
