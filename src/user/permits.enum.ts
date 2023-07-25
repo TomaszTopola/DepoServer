@@ -1,6 +1,6 @@
 enum Permits{
-    M_KORAB,
-    M_PASAT,
+    KORAB,
+    PASAT,
     ADMIN,
     ROOT,
 }

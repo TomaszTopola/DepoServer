@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { Schema } from 'mongoose'
+import {SDM} from './sdm.enum'
 
 const depoSchema = new Schema({
     _id: {type: String},    // deposit number
@@ -12,7 +13,7 @@ const depoSchema = new Schema({
     content: {type: String, required: true},    // contents of deposit
     depo_date: {type: String, required: true},  // Date when property was deposited
     valid_to: {type: String, required: true},   // Date when utilisation process begins
-    sdm:  {type: String, required: true},       // Korab / Pasat
+    sdm:  {type: String, enum: SDM, required: true},       // Korab / Pasat
     authorized_by: {type: mongoose.Types.ObjectId},         // person taking in the deposit, user ID
     comission_chairman: {type: mongoose.Types.ObjectId},    // person responsible for deposit, user ID
 },
