@@ -3,11 +3,11 @@ import {Request, Response} from "express";
 export default abstract class ControllerInterface{
 
     // for entries without params
-    abstract getAll(req: Request, res: Response): Promise<any>
-    abstract post(req: Request, res: Response): Promise<any>
+    abstract getAll(req: any, res: any): Promise<any>
+    abstract post(req: any, res: any): Promise<any>
 
     // by ID
-    abstract getById(req: Request, res: Response): Promise<any>
-    abstract patchById(req: Request, res: Response): Promise<any>
-    abstract deleteById(req: Request, res: Response): Promise<any>
+    abstract getById(req: any, res: any): Promise<any>
+    abstract patchById(req: any, res: any): Promise<any>
+    abstract deleteById(req: any, res: any): Promise<any>
 }
