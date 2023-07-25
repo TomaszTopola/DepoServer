@@ -11,20 +11,22 @@ class MongoController{
     }
 
     async setupMongo(): Promise<void>{
-        if(this._connected) return console.log('Database connection established.')
+        
+        console.log("[MONGOOSE]: connecting to Mongo...")
+        if(this._connected) return console.log('[MONGOOSE]: Database connection established.')
         
         const mongoURL = process.env.MONGO_URL!
         await mongoose.connect(mongoURL)
         
         mongoose.connection.on('error', (err) => {
-            console.log('Error on DB Connection:')
+            console.log('[MONGOOSE]: Error on DB Connection:')
             console.log(err)
             StatusSingleton.setDbConnectedStatus(false)
             this.reattemptConnection()
             return
         })
 
-        console.log('Database connection established.')
+        console.log('[MONGOOSE]: Database connection established.')
         StatusSingleton.setDbConnectedStatus(true)
         
     }
@@ -41,10 +43,10 @@ class MongoController{
             try {
                 await mongoose.connect(mongoURL)
             } catch (err) {
-                console.log('Error on DB Connection:')
+                console.log('[MONGOOSE]: Error on DB Connection:')
                 console.log(err)
                 StatusSingleton.setDbConnectedStatus(false)
-                console.log('No DB connection. Reattempting in 1 minutes...');
+                console.log('[MONGOOSE]: No DB connection. Reattempting in 1 minutes...');
             }
             await AsyncTime.delay(6000)
         }

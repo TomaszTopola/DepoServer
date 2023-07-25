@@ -8,6 +8,7 @@ export default abstract class RouterInterface {
         this.app = app
         this.name = name
         this.configureRoutes()
+        console.log(`[ROUTER]: Registered ${this.name}.`);        
     }
 
     abstract configureRoutes(): express.Application

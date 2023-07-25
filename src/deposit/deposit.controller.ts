@@ -3,7 +3,7 @@ import ControllerInterface from "../common/controller.interface";
 
 import DepoModel from "./deposit.model";
 
-export class DepoController extends ControllerInterface{
+class DepoController extends ControllerInterface{
 
     // without params
     async getAll(req: Request, res: Response): Promise<any> {
@@ -50,3 +50,5 @@ export class DepoController extends ControllerInterface{
     }
 
 }
+
+export default new DepoController()
