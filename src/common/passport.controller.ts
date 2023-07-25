@@ -28,8 +28,8 @@ export default class PassportController{
         .catch(err => done(err, false))
     }
 
-    static async auth(req: Request, res: Response, next: NextFunction){
-        console.log(req.body)        
-        passport.authenticate('jwt', {session: false})(req, res, next)
+    static async auth(req: Request, res: Response, next: NextFunction){ 
+        passport.authenticate('jwt', {session: false})
+        next()
     }
 }
