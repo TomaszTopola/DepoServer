@@ -4,7 +4,7 @@ import Permits from './permits.enum'
 import passportLocalMongoose from 'passport-local-mongoose'
 
 const userSchema = new Schema({
-    _id: {type: String},
+    _id: {type: String},                        //album number (Organisation specific ID)
     first_name: {type: String, required: true},
     last_name: {type: String, required: true},
     phone: {type: String, required: true},

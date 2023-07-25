@@ -18,6 +18,13 @@ class DepositRouter extends RouterInterface{
         .patch(DepoController.patchById)
         .delete(DepoController.deleteById)
 
+
+        this.app.route('/api/no-gdpr/depo/')
+        .get(DepoController.getAllNoGDPR)
+
+        this.app.route('/api/no-gdpr/depo/:id')
+        .get(DepoController.getOneNoGDPR)
+
         return this.app
     }
 }

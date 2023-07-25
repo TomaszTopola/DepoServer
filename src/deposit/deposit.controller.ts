@@ -49,6 +49,20 @@ class DepoController extends ControllerInterface{
         return res.status(204).send(`Deleted depo ID: ${req.params.id}`)
     }
 
+    async getAllNoGDPR(req: Request, res: Response): Promise<any> {
+        const depos = await DepoModel.find(req.query, '_id depo_status depo_date valid_to sdm')   //only returns keys in quotes 
+        .catch(err => res.send(err))
+
+        return res.send(depos)
+    }
+
+    async getOneNoGDPR(req: Request, res: Response): Promise<any> {
+        const depos = await DepoModel.findById(req.params.id, '_id depo_status depo_date valid_to sdm')   //only returns keys in quotes 
+        .catch(err => res.send(err))
+
+        return res.send(depos)
+    }
+
 }
 
 export default new DepoController()
