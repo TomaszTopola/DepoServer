@@ -1,6 +1,7 @@
 import express from 'express'
 import RouterInterface from '../common/router.interface';
 import DepoController from './deposit.controller';
+import PassportController from '../common/passport.controller';
 
 class DepositRouter extends RouterInterface{
     
@@ -10,13 +11,13 @@ class DepositRouter extends RouterInterface{
     
     configureRoutes(): express.Application {
         this.app.route('/api/depo')
-        .get(DepoController.getAll)
-        .post(DepoController.post)
+        .get(PassportController.auth, DepoController.getAll)
+        .post(PassportController.auth, DepoController.post)
         
         this.app.route('/api/depo/:id')
-        .get(DepoController.getById)
-        .patch(DepoController.patchById)
-        .delete(DepoController.deleteById)
+        .get(PassportController.auth, DepoController.getById)
+        .patch(PassportController.auth, DepoController.patchById)
+        .delete(PassportController.auth, DepoController.deleteById)
 
 
         this.app.route('/api/no-gdpr/depo/')
