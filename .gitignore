@@ -19,6 +19,6 @@ dist
 
 #docker
 docker-commands.txt
-# .dockerignore
-# docker-compose.yaml
-# Dockerfile
+.dockerignore
+docker-compose.yaml
+Dockerfile
