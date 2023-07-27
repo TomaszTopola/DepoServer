@@ -1,3 +1,0 @@
-HTTP = 
-MONGO_URL = 
-JWT_SECRET = 
