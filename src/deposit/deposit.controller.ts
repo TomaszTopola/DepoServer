@@ -13,7 +13,9 @@ class DepoController extends ControllerInterface{
     }
 
     async post(req: Request, res: Response): Promise<any> {
-        // return res.status(501).send('Not implemented (yet)...')
+
+        //TODO: add permits check
+
         try {
             const depo = new DepoModel(req.body)
             await depo.save()
@@ -32,7 +34,9 @@ class DepoController extends ControllerInterface{
     }
 
     async patchById(req: Request, res: Response): Promise<any> {
-        // return res.status(501).send('Not implemented (yet)...')
+        
+        //TODO: add permits check
+
         const depo = await DepoModel.findByIdAndUpdate(
             req.params.id,
             req.body,
@@ -59,7 +63,7 @@ class DepoController extends ControllerInterface{
     async getOneNoGDPR(req: Request, res: Response): Promise<any> {
         const depos = await DepoModel.findById(req.params.id, '_id depo_status depo_date valid_to sdm')   //only returns keys in quotes 
         .catch(err => res.send(err))
-
+        if(!depos) return res.status(404).send('[404] - depo not found')
         return res.send(depos)
     }
 
