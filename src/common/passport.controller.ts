@@ -1,4 +1,4 @@
-import passport from 'passport'
+import passport, { DoneCallback } from 'passport'
 import passportJWT from 'passport-jwt'
 import userModel from '../user/user.model'
 import {Request, Response, NextFunction} from 'express'
@@ -6,30 +6,40 @@ import {Request, Response, NextFunction} from 'express'
 export default class PassportController{
 
     static async setup(){
-        const JWTStrategy = passportJWT.Strategy
+        
         const ExtractJwt = passportJWT.ExtractJwt
+
         const config = {
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             secretOrKey: process.env.JWT_SECRET,
-            issuer: 'DepoApp',
-            
         }
+        
+        const JWTstrategy = new passportJWT.Strategy(
+            config, 
+            (payload, done) => {
+                var user
+                try{
+                    user = userModel.findOne({_id: payload.user._id})
+                }catch(err){
+                    return done(err, false)
+                }
+                if(user){
+                    return done(null, user)
+                }
+                else{
+                    return done(null, false)
+                }
+            }
+        )
+        
 
         passport.use(userModel.createStrategy())
-        passport.use(new JWTStrategy(config, this.authenticateCallback))
+        passport.use('jwt', JWTstrategy)
+
+        console.log('[PASSPORT]: setup finished.')
     }
 
-    static async authenticateCallback(payload: any, done: any){     //TODO: check and assure types for this function
-        return await userModel.findOne({_id: payload.id})
-        .then(user => {
-            if(user) return done(null, user)
-            else return done(null, false)
-        })
-        .catch(err => done(err, false))
-    }
-
-    static async auth(req: Request, res: Response, next: NextFunction){ 
-        passport.authenticate('jwt', {session: false})
-        next()
+    static async auth(req: Request, res: Response, next: NextFunction){
+        await passport.authenticate('jwt', {session: false})(req, res, next)
     }
 }

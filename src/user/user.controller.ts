@@ -7,8 +7,9 @@ class UserController{
 
     async login (req: any, res: any) {
         try {
+            const user = await userModel.findById(req.body._id)
             const token = jwt.sign(
-                {id: req.user!._id},
+                {user: user?.toJSON() || 'USER NOT FOUND'},
                 process.env.JWT_SECRET!,
                 {expiresIn: '1h'}
             )
@@ -44,8 +45,8 @@ class UserController{
             if(err == 'UserExistsError: A user with the given username is already registered')
                 return res.status(409).send('User of given username already exists.')
             
-            return res.status(500).send('internal server error, check app logs for debugging.')
             console.log('[USER CONTROLLER]:' + err);
+            return res.status(500).send('internal server error, check app logs for debugging.')
         }
     }
 

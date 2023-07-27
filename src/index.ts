@@ -17,7 +17,7 @@ const main = async () => {
     app.use(express.json())
     app.use(express.urlencoded({extended: false}))
 
-    PassportController.setup()
+    await PassportController.setup()
 
 
     app.get('/', (req, res) =>{
