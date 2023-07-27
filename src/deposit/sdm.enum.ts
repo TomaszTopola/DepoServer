@@ -1,4 +1,6 @@
-export enum SDM{
-    KORAB,
-    PASAT
+enum SDM{
+    KORAB = 'KORAB',
+    PASAT = 'PASAT'
 }
+
+export default SDM

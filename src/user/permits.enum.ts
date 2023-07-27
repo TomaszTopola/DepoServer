@@ -1,8 +1,8 @@
 enum Permits{
-    KORAB,
-    PASAT,
-    ADMIN,
-    ROOT,
+    KORAB = 'KORAB',
+    PASAT = 'PASAT',
+    ADMIN = 'ADMIN',
+    ROOT = 'ROOT',
 }
 
 export default Permits

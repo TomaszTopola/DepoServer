@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { Schema } from 'mongoose'
+import { Schema, InferSchemaType} from 'mongoose'
 import {SDM} from './sdm.enum'
 
 const depoSchema = new Schema({
@@ -14,14 +14,14 @@ const depoSchema = new Schema({
     depo_date: {type: String, required: true},  // Date when property was deposited
     valid_to: {type: String, required: true},   // Date when utilisation process begins
     sdm:  {type: String, enum: SDM, required: true},       // Korab / Pasat
-    authorized_by: {type: mongoose.Types.ObjectId},         // person taking in the deposit, user ID
-    comission_chairman: {type: mongoose.Types.ObjectId},    // person responsible for deposit, user ID
+    authorized_by: {type: String},         // person taking in the deposit, user ID
+    comission_chairman: {type: String},    // person responsible for deposit, user ID
 },
 {
     collection: 'depos',
     timestamps: true,
 })
 
-const depoModel = mongoose.model('Depo', depoSchema)
+export type Depo = InferSchemaType<typeof depoSchema>
 
-export default depoModel
+export default mongoose.model<Depo>('Depo', depoSchema)
