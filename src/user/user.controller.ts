@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import userModel from "./user.model";
+import UserModel from "./user.model";
 import Permits from "./permits.enum";
 import jwt from 'jsonwebtoken'
 
@@ -7,7 +7,7 @@ class UserController{
 
     async login (req: any, res: any) {
         try {
-            const user = await userModel.findById(req.body._id)
+            const user = await UserModel.findById(req.body._id)
             const token = jwt.sign(
                 {user: user?.toJSON() || 'USER NOT FOUND'},
                 process.env.JWT_SECRET!,
@@ -31,7 +31,7 @@ class UserController{
                 password,
             } = req.body
             const permits: Permits[] = []
-            const user = new userModel({
+            const user = new UserModel({
                 _id,
                 first_name,
                 last_name,
@@ -39,7 +39,7 @@ class UserController{
                 mail,
                 permits,
             })
-            await userModel.register(user, password)
+            await UserModel.register(user, password)
             res.status(201).send('[201] - user registered successfuly')
         }catch(err){
             if(err == 'UserExistsError: A user with the given username is already registered')

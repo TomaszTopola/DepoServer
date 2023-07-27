@@ -1,6 +1,6 @@
 import passport, { DoneCallback } from 'passport'
 import passportJWT from 'passport-jwt'
-import userModel from '../user/user.model'
+import UserModel from '../user/user.model'
 import {Request, Response, NextFunction} from 'express'
 
 export default class PassportController{
@@ -16,10 +16,10 @@ export default class PassportController{
         
         const JWTstrategy = new passportJWT.Strategy(
             config, 
-            (payload, done) => {
+            async (payload, done) => {
                 var user
                 try{
-                    user = userModel.findOne({_id: payload.user._id})
+                    user = await UserModel.findById(payload.user._id)
                 }catch(err){
                     return done(err, false)
                 }
@@ -33,7 +33,7 @@ export default class PassportController{
         )
         
 
-        passport.use(userModel.createStrategy())
+        passport.use(UserModel.createStrategy())
         passport.use('jwt', JWTstrategy)
 
         console.log('[PASSPORT]: setup finished.')
