@@ -1,6 +1,15 @@
 <h1>Templates for env files</h1>
 
-1. `.env`
+1. Docker commands:
+
+`docker compose up --build <service name>` - builds just one service \
+`docker compose logs -f -t ` - view live logs from apps 
+
+`docker compose start` \
+`docker compose stop` \
+`docker compose restart` 
+
+2. `.env`
 
 ```txt
 HTTP = 
@@ -8,7 +17,7 @@ MONGO_URL =
 JWT_SECRET = 
 ```
 
-2. `docker-compose.yaml`
+3. `docker-compose.yaml`
 
 ```yaml
 version: '3.9'
@@ -41,7 +50,7 @@ volumes:
 
 ```
 
-3. `Dockerfile`
+4. `Dockerfile`
 
 ```dockerfile
 FROM node:latest
@@ -52,7 +61,7 @@ COPY . .
 RUN npm run build
 CMD ["npm", "start"]
 ```
-4. `.dockerignore`
+5. `.dockerignore`
 ```dockerignore
 ./node_modules
 Dockerfile
