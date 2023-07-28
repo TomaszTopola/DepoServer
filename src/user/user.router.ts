@@ -19,6 +19,12 @@ export default class UserRouter extends RouterInterface{
         this.app.route('/api/users/register')
         .post(UserController.register)
 
+        this.app.route('/api/users/update-permits/:id')
+        .post(PassportController.auth, UserController.updatePermits)
+
+        this.app.route('/api/users/update/:id')
+        .post(PassportController.auth, UserController.updateUser)
+
         return this.app
     }
 

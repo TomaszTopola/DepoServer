@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import UserModel from "./user.model";
 import Permits from "./permits.enum";
 import jwt from 'jsonwebtoken'
+import PermitsHandler from "./permits.handler";
 
 class UserController{
 
@@ -55,6 +56,47 @@ class UserController{
             console.log('[USER CONTROLLER]:' + err);
             return res.status(500).send('internal server error, check app logs for debugging.')
         }
+    }
+
+    async updatePermits(req: Request, res: Response){
+
+        if(! await PermitsHandler.checkAdminPermits(req.user)){
+            return res.status(401).send('Only admins can manage permits.')
+        }
+
+        var permits: Permits[] = []
+
+        if(req.body.admin) permits.push(Permits.ADMIN)
+        if(req.body.korab) permits.push(Permits.KORAB)
+        if(req.body.pasat) permits.push(Permits.PASAT)
+
+        const user = await UserModel.findByIdAndUpdate(
+            req.params.id,
+            {permits: permits},
+            {new: true}
+        )
+        .catch(err => res.send(err))
+
+        if(!user) return res.status(404).send('User not found')
+
+        res.send(user)
+    }
+
+    async updateUser(req: Request, res: Response){
+        const attemptingUser:any = req.user
+        if(attemptingUser._id != req.params.id) return res.status(401).send('Unauthorized.')
+        
+        var newUser = req.body
+        newUser.permits = attemptingUser.permits
+
+        const savedUser = await UserModel.findByIdAndUpdate(
+            req.params.id,
+            newUser,
+            {new: true}
+        )
+        .catch(err => res.send(err))
+
+        return res.status(201).send(savedUser)
     }
 
 }
