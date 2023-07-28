@@ -11,10 +11,16 @@
 
 2. `.env`
 
-```txt
+```.env
 HTTP = 
 MONGO_URL = 
 JWT_SECRET = 
+
+ROOT_FIRST_NAME =
+ROOT_LAST_NAME = 
+ROOT_PHONE = 
+ROOT_MAIL =
+ROOT_PASS =
 ```
 
 3. `docker-compose.yaml`
@@ -41,6 +47,11 @@ services:
       HTTP: 8080
       MONGO_URL: mongodb://mongo:27017/depo
       JWT_SECRET: example
+      ROOT_FIRST_NAME: John
+      ROOT_LAST_NAME: Doe
+      ROOT_PHONE: "123456789"
+      ROOT_MAIL: john.doe@example.com
+      ROOT_PASS: ilovebananas1234
     depends_on:
       - mongo_db
     restart: always

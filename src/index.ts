@@ -6,6 +6,7 @@ import MongoController from './common/mongo.controller'
 import DepositRouter from './deposit/deposit.router'
 import UserRouter from './user/user.router'
 import PassportController from './common/passport.controller'
+import SetupRoot from './user/setup.root'
 
 const app = express()
 dotenv.config({path: './.env'})
@@ -26,6 +27,8 @@ const main = async () => {
 
     new DepositRouter(app).configureRoutes()
     new UserRouter(app).configureRoutes()
+
+    new SetupRoot().setup()
 
     app.listen(process.env.HTTP, () => console.log(`[SERVER]: Listening on port ${process.env.HTTP}...`))
     
