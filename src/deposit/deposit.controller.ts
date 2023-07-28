@@ -8,7 +8,7 @@ class DepoController extends ControllerInterface{
 
     // without params
     async getAll(req: Request, res: Response): Promise<any> {
-        
+
         if(!(await PermitsHandler.checkDepoReadPermits(req.user))) {
             return res.redirect(`/api/no-gdpr/depo/`)
         }
@@ -69,6 +69,10 @@ class DepoController extends ControllerInterface{
     }
 
     async deleteById(req: Request, res: Response): Promise<any> {
+
+        if(! await PermitsHandler.checkAdminPermits(req.user)){
+            return res.status(401).send('Only admin accounts can DELETE depos. Try changing depo_status to ARCHIVE')
+        }
         
         const depo = await DepoModel.findById(req.params.id)
         if(!depo) return res.status(404).send(`[404] - depo ID ${req.params.id} not found.`)

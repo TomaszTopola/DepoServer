@@ -8,6 +8,7 @@ class PermitsHandler{
         if (depo.sdm == 'PASAT' && user.permits.includes(Permits.PASAT)) return true
         return false
     }
+
     static async checkDepoReadPermits(user: any, depo_album?: any) : Promise<boolean>{
         if (user.permits.includes(Permits.ROOT) 
         || user.permits.includes(Permits.ADMIN) 
@@ -16,6 +17,21 @@ class PermitsHandler{
         }
         if(depo_album){
             if(user._id == depo_album) return true
+        }
+        return false
+    }
+
+    static async checkAdminPermits(user: any){
+        if(user.permits.includes(Permits.ADMIN) 
+        || user.permits.includes(Permits.ROOT)){
+            return true
+        }
+        return false
+    }
+
+    static async checkRootPermits(user: any){
+        if(user.permits.includes(Permits.ROOT)){
+            return true
         }
         return false
     }

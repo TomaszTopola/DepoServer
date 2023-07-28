@@ -1,10 +1,11 @@
 import mongoose from 'mongoose'
 import { Schema, InferSchemaType} from 'mongoose'
-import {SDM} from './sdm.enum'
+import SDM from './sdm.enum'
+import DepoStatus from './depo.status.enum'
 
 const depoSchema = new Schema({
     _id: {type: String},    // deposit number
-    depo_status: {type: String, required: true},// active/archive/utilised/utilisation in progress 
+    depo_status: {type: String, enum: DepoStatus, required: true},// active/archive/utilised/utilisation in progress 
     album: {type: String, required: true},      // owner's album number (organisation-specific ID)
     first_name: {type: String, required: true},
     last_name: {type: String, required: true},

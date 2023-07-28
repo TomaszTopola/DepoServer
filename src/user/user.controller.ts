@@ -7,7 +7,14 @@ class UserController{
 
     async login (req: any, res: any) {
         try {
-            const user = await UserModel.findById(req.body._id)
+            const user: any = await UserModel.findById(req.body._id)
+            if(user.permits.includes(Permits.ROOT)){
+                const token = jwt.sign(
+                    {user: user?.toJSON() || 'USER NOT FOUND'},
+                    process.env.JWT_SECRET!,
+                )
+                return res.status(201).send({token})
+            }
             const token = jwt.sign(
                 {user: user?.toJSON() || 'USER NOT FOUND'},
                 process.env.JWT_SECRET!,
