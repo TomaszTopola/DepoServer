@@ -49,10 +49,13 @@ class UserController{
             })
             await UserModel.register(user, password)
             res.status(201).send('[201] - user registered successfuly')
-        }catch(err){
+        }catch(err: any){
             if(err == 'UserExistsError: A user with the given username is already registered')
                 return res.status(409).send('User of given username already exists.')
-            
+            if(err.code === 11000){
+                return res.status(409).send(`User with e-mail ${req.body.mail} already exists`)
+            }
+            console.log(err.code)
             console.log('[USER CONTROLLER]:' + err);
             return res.status(500).send('internal server error, check app logs for debugging.')
         }
@@ -99,6 +102,22 @@ class UserController{
         return res.status(201).send(savedUser)
     }
 
+    async getAll(req: Request, res: Response){
+        if(! await PermitsHandler.checkAdminPermits(req.user)){
+            return res.status(401).send('Only admins can view users')
+        }
+        const users = await UserModel.find(req.query)
+        return res.send(users)
+    }
+
+    async getOneById(req: Request, res: Response){
+        if(!await PermitsHandler.checkAdminOrSelf(req.user, req.params.id)){
+            return res.status(401).send('Only admins can view users')
+        }
+        const user = UserModel.findById(req.params.id)
+        if(!user) return res.status(404).send(`User ID ${req.params.id} not found`)
+        return res.send(user)
+    }
 }
 
 export default new UserController()

@@ -21,6 +21,15 @@ class PermitsHandler{
         return false
     }
 
+    static async checkAdminOrSelf(user:any, id:any){
+        if(user.permits.includes(Permits.ADMIN) 
+        || user.permits.includes(Permits.ROOT)
+        || user._id == id){
+            return true
+        }
+        return false
+    }
+
     static async checkAdminPermits(user: any){
         if(user.permits.includes(Permits.ADMIN) 
         || user.permits.includes(Permits.ROOT)){
