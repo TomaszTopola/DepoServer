@@ -1,12 +1,12 @@
 import * as dotenv from 'dotenv'
 import express from 'express'
-import bodyParser from 'body-parser'
 
 import MongoController from './common/mongo.controller'
 import DepositRouter from './deposit/deposit.router'
 import UserRouter from './user/user.router'
 import PassportController from './common/passport.controller'
 import SetupRoot from './user/setup.root'
+import MailingService from './common/mailing.service'
 
 const app = express()
 dotenv.config({path: './.env'})

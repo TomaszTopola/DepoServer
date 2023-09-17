@@ -21,6 +21,12 @@ ROOT_LAST_NAME =
 ROOT_PHONE = 
 ROOT_MAIL =
 ROOT_PASS =
+
+SMTP_FROM_MAIL = 
+SMTP_HOST = "smtp.office365.com"
+SMTP_PORT = 587
+SMTP_USER = 
+SMTP_PASS = 
 ```
 
 3. `docker-compose.yaml`
