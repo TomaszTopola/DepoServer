@@ -6,7 +6,7 @@ import DepositRouter from './deposit/deposit.router'
 import UserRouter from './user/user.router'
 import PassportController from './common/passport.controller'
 import SetupRoot from './user/setup.root'
-import MailingService from './common/mailing.service'
+import MailingService from './mailing/mailing.service'
 
 const app = express()
 dotenv.config({path: './.env'})
