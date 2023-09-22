@@ -12,22 +12,22 @@ class MongoController{
 
     async setupMongo(): Promise<void>{
         
-        console.log("[MONGOOSE]: connecting to Mongo...")
-        if(this._connected) return console.log('[MONGOOSE]: Database connection established.')
-        
-        const mongoURL = process.env.MONGO_URL!
-        await mongoose.connect(mongoURL)
-        
-        mongoose.connection.on('error', (err) => {
-            console.log('[MONGOOSE]: Error on DB Connection:')
+        try{
+            console.log("[MONGOOSE]: connecting to Mongo...")
+            if(this._connected) return console.log('[MONGOOSE]: Database connection established.')
+            
+            const mongoURL = process.env.MONGO_URL!
+            await mongoose.connect(mongoURL)
+            
+    
+            console.log('[MONGOOSE]: Database connection established.')
+            StatusSingleton.setDbConnectedStatus(true)
+        }catch(err){
+            console.log('[MONGOOSE]: Error on DB connection:')
             console.log(err)
             StatusSingleton.setDbConnectedStatus(false)
             this.reattemptConnection()
-            return
-        })
-
-        console.log('[MONGOOSE]: Database connection established.')
-        StatusSingleton.setDbConnectedStatus(true)
+        }
         
     }
 
