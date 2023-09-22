@@ -3,6 +3,7 @@ import ControllerInterface from "../common/controller.interface";
 
 import DepoModel from "./deposit.model";
 import PermitsHandler from "../user/permits.handler";
+import MailingService from "../mailing/mailing.service";
 
 class DepoController extends ControllerInterface{
 
@@ -25,9 +26,15 @@ class DepoController extends ControllerInterface{
             if(! await PermitsHandler.checkDepoEditPermits(depo, req.user)){
                 return res.status(401).send(`You are not authorized to edit in SDM ${depo.sdm}`)
             }
-            await depo.save()
-            return res.status(201).send(depo)
+            
+            const user = req.user as any
+            depo.authorized_by = user._id;
 
+            await depo.save()
+            
+            await MailingService.getInstance().sendDepoRegisteredMessage(depo)
+
+            return res.status(201).send(depo)
         }catch (err: any) {
 
             if(err.code === 11000) return res.status(409).send('[409] - Resource already exists.')

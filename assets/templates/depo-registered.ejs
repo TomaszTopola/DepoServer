@@ -1,0 +1,76 @@
+<html>
+    <head>
+        <%- include('./common/head') %>
+        
+        <%-
+        '<style>'
+        + include('./common/style.css')
+        +'</style>'
+        %>
+
+    </head>
+    <body>
+        <%- include('./common/topbar') %>
+        
+        <div class="container">
+            <h1>Depo #ID <%= depoId %></h1>
+            <p lang="pl">
+                Zarejestrowaliśmy nowy depozyt na twoje nazwisko. Poniżej znajdziesz wszystkie informacje na jego temat.
+                Jeśli nie jesteś w stanie odebrać depozytu przed upływem jego ważności skontaktuj się z nami pod adresem e-mail: <br>
+                <a href="mailto:<%= orgMail %>"><%= orgMail %></a>. <br>
+                W przeciwnym wypadku mienie zostanie zutylizowane.
+            </p>
+            
+            <div class="depo-card">
+                <h2>#<%= depoId %></h2>
+                <ul class="depo-details card">
+                    <li>SDM: <%= SDM %></li>
+                    <li>Właściciel: <%= holder %></li>
+                    <li>Przyjęto przez: <%= keeper %></li>
+                    <li>Przyjęto dnia: <%= registeredAt %></li>
+                    <li>Odbiór do dnia: <%= validTo %></li>
+                    <li>Zawartość: <%= content %></li>
+                </ul>    
+            </div>
+            
+            <p lang="pl">
+                Pozdrawiamy <br> <br>
+                
+                Parlament Studentów Politechniki Morskiej <br>
+                Komisja ds. Mieszkaniowych
+            </p>
+        </div>
+        
+        <!-- <br><br><br>
+
+        <h1>Depo #ID <%= depoId %></h1>
+        <p lang="pl">
+            We have registered a new deposit under your name. You can find all information below.
+            If you are unable to collect your belongings before the deadline please contact us at
+            <a href="mailto:<%= orgMail %>"><%= orgMail %></a>.
+            Otherwise the deposit will be disposed of.
+        </p>
+        
+        <h2>#<%= depoId %></h2>
+        <ul class="depo-details">
+            <li>Owner: <%= holder %></li>
+            <li>Accepted by: <%= keeper %></li>
+            <li>Registered on: <%= registeredAt %></li>
+            <li>Pick-up deadline: <%= validTo %></li>
+        </ul>
+        
+        <p lang="pl">
+            Best Regards, <br> <br>
+            
+            Student Parliament of the Maritime University of Szczecin <br>
+            Housing Comittee
+        </p>
+        
+        <br><br><br> -->
+
+        <%- include('./common/beta-warning') %>
+        
+        <%- include('./common/footer') %>
+    </body>
+    
+    </html>

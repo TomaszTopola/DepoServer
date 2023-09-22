@@ -1,0 +1,62 @@
+h1.warning{
+    color: red;
+    font-size: 16px;
+}
+p.warning{
+    color: gray;
+    font-size: 12px;
+}
+
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.topbar{
+    background-color: rgba(58,64,90,255);
+    padding-left: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 20px;
+}
+.app-title{
+    color: white;
+    font-size: 26px;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
+
+h1{
+    font-size: 24px;
+}
+
+h2{
+    font-size: 18px;
+}
+
+p{
+    font-size: 14px;
+    text-align: justify;
+}
+
+ul.card{
+    list-style-position: inside;
+    padding: 0;
+}
+
+.depo-card{
+    width: fit-content;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    background-color: rgba(58,64,90,255);
+    border-radius: 25px;
+    color: white;
+    padding: 5px 25px 5px 25px;
+}
