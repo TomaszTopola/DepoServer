@@ -2,6 +2,9 @@ import mongoose from 'mongoose'
 import AsyncTime from './async.time'
 import StatusSingleton from './status.singleton'
 
+/**
+ * Handles all MongoDB interactions.
+ */
 class MongoController{
 
     private _connected: boolean = false
@@ -10,6 +13,10 @@ class MongoController{
         this._connected = StatusSingleton.getDbConnectedStatus()
     }
 
+    /**
+     * Establishes MongoDB Connection, sets up connection related error handling.
+     * @returns void
+     */
     async setupMongo(): Promise<void>{
         
         console.log("[MONGOOSE]: connecting to Mongo...")
@@ -31,6 +38,9 @@ class MongoController{
         
     }
 
+    /**
+     * Shuts down MongoDB connection.
+     */
     async close(){
         mongoose.connection.close()
     }

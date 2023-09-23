@@ -1,6 +1,9 @@
 import schedule from 'node-schedule'
 import MailingService from './mailing.service'
 
+/**
+ * Schedules jobs
+ */
 export default class Scheduler {
     
     public static setupSchedule() {

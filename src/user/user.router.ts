@@ -5,6 +5,9 @@ import UserController from './user.controller'
 import RouterInterface from '../common/router.interface'
 import PassportController from '../common/passport.controller'
 
+/**
+ * Handles routing of User elements
+ */
 export default class UserRouter extends RouterInterface{
     
     constructor(app: express.Application){

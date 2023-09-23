@@ -3,6 +3,9 @@ import RouterInterface from '../common/router.interface';
 import DepoController from './deposit.controller';
 import PassportController from '../common/passport.controller';
 
+/**
+ * Sets up routes and auth callbacks for Deposits.
+ */
 class DepositRouter extends RouterInterface{
     
     constructor(app: express.Application){

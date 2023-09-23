@@ -5,6 +5,9 @@ import userModel from '../user/user.model'
 
 import ejs from 'ejs'
 
+/**
+ * As the name suggests, it simply sends mail.
+ */
 export default class MailingService{
 
     private static instance: MailingService
@@ -23,6 +26,9 @@ export default class MailingService{
         return this.instance;
     }
 
+    /**
+     * Connects with SMTP host.
+     */
     private async setupConnection(){ //TODO: add try/catch for no internet, other connection errors
         this.transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
@@ -39,6 +45,9 @@ export default class MailingService{
         
     }
 
+    /**
+     * Sends startup log message 
+     */
     private async sendFoo(){
         await this.transporter.sendMail({
             from: `"DepoApp" <${process.env.SMTP_FROM_MAIL}>`,
@@ -48,6 +57,10 @@ export default class MailingService{
         })
     }
 
+    /**
+     * Sends a message to the owner when his property is registered in deposit.
+     * @param depo Deposit object
+     */
     public async sendDepoRegisteredMessage(depo: Depo){
         
         var keeper: any = await userModel.findById(depo.authorized_by)
@@ -79,6 +92,10 @@ export default class MailingService{
 
     }
 
+    /**
+     * Sends a message to the owner when deposit is updated.
+     * @param depo Deposit object
+     */
     public async sendDepoUpdatedMessage(depo: any){
         var keeper: any = await userModel.findById(depo.authorized_by)
         var keeperName;

@@ -11,15 +11,14 @@
     </head>
     <body>
         <%- include('./common/topbar') %>
-        
+
         <div class="container">
-            
+
             <h1>Depo #ID <%= depoId %></h1>
             <p lang="pl">
-                Zarejestrowaliśmy nowy depozyt na twoje nazwisko. Poniżej znajdziesz wszystkie informacje na jego temat.
-                Jeśli nie jesteś w stanie odebrać depozytu przed upływem jego ważności skontaktuj się z nami pod adresem e-mail: <br>
+                Twój depozyt został zaktualizowany. Sprawdź poprawność poniższych danych. Jeśli coś się nie zgadza
+                skontaktuj się znami pod poniższym adresem:<br>
                 <a href="mailto:<%= orgMail %>"><%= orgMail %></a>. <br>
-                W przeciwnym wypadku mienie zostanie zutylizowane.
             </p>
             
             <%- include('./common/depo-card') %>

@@ -4,6 +4,9 @@ import Permits from "./permits.enum";
 import jwt from 'jsonwebtoken'
 import PermitsHandler from "./permits.handler";
 
+/**
+ * Controlls all CRUD operations for Users
+ */
 class UserController{
 
     async login (req: any, res: any) {

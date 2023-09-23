@@ -60,3 +60,20 @@ ul.card{
     color: white;
     padding: 5px 25px 5px 25px;
 }
+
+.footer{
+    display: flex;
+    flex-direction: row;
+    background-color: rgba(58,64,90,255);
+}
+.parlament-logo{
+    flex-grow: 1;
+}
+.footer-text{
+    flex-grow: 3;
+    color: white;
+}
+
+.wide-drawing{
+    width: 80%;
+}

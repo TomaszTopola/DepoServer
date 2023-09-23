@@ -5,9 +5,18 @@ import DepoModel from "./deposit.model";
 import PermitsHandler from "../user/permits.handler";
 import MailingService from "../mailing/mailing.service";
 
+/**
+ * Controlls CRUD operations on Deposit collection in MongoDB.
+ */
 class DepoController extends ControllerInterface{
 
-    // without params
+    /**
+     * Requests DB with provided query. Checks for credentials, if unauthorized redirects to 
+     * path without sensitive information.
+     * @param req HTTP Request
+     * @param res HTTP Response
+     * @returns JSON object containing queried Depos.
+     */
     async getAll(req: Request, res: Response): Promise<any> {
 
         if(!(await PermitsHandler.checkDepoReadPermits(req.user))) {
@@ -19,6 +28,12 @@ class DepoController extends ControllerInterface{
         return res.status(200).send(depos)
     }
 
+    /**
+     * Creates new Depo in DB.
+     * @param req HTTP Request
+     * @param res HTTP Response
+     * @returns JSON object containing created Depo.
+     */
     async post(req: Request, res: Response): Promise<any> {
 
         try{
@@ -42,7 +57,12 @@ class DepoController extends ControllerInterface{
         }
     }
 
-    // by ID
+    /**
+     * Looks up Depo object of specific ID.
+     * @param req HTTP Request
+     * @param res HTTP Response
+     * @returns JSON object containing queried Depo.
+     */
     async getById(req: Request, res: Response): Promise<any> {
 
         const depo:any = await DepoModel.findById(req.params.id)
@@ -56,7 +76,13 @@ class DepoController extends ControllerInterface{
         
         return res.status(200).send(depo)
     }
-
+    
+    /**
+     * Updates object of specific ID
+     * @param req HTTP Request
+     * @param res HTTP Response
+     * @returns JSON object containing updated Depo.
+     */
     async patchById(req: Request, res: Response): Promise<any> {
 
         const originalDepo = await DepoModel.findById(req.params.id)
@@ -78,6 +104,12 @@ class DepoController extends ControllerInterface{
         return res.status(201).send(depo)
     }
 
+    /**
+     * Shall not be used in production API requests. All data concidering
+     * @param req HTTP Request
+     * @param res HTTP Response
+     * @returns Status message
+     */
     async deleteById(req: Request, res: Response): Promise<any> {
 
         if(! await PermitsHandler.checkAdminPermits(req.user)){
@@ -99,7 +131,12 @@ class DepoController extends ControllerInterface{
 
 
     //No auth 
-
+    /**
+     * Returns data in no-gdpr mode - hides sensitive information for unauthorized users.
+     * @param req HTTP Request
+     * @param res HTTP Response
+     * @returns JSON object containing updated Depo.
+     */
     async getAllNoGDPR(req: Request, res: Response): Promise<any> {
         const depos = await DepoModel.find(req.query, '_id depo_status depo_date valid_to sdm')   //only returns keys in quotes 
         .catch(err => res.send(err))
@@ -107,6 +144,12 @@ class DepoController extends ControllerInterface{
         return res.send(depos)
     }
 
+    /**
+     * Returns data in no-GDPR mode - hides sensitive information for unauthorized users.
+     * @param req HTTP Request
+     * @param res HTTP Response
+     * @returns JSON object containing updated Depo.
+     */
     async getOneNoGDPR(req: Request, res: Response): Promise<any> {
         const depos = await DepoModel.findById(req.params.id, '_id depo_status depo_date valid_to sdm')   //only returns keys in quotes 
         .catch(err => res.send(err))

@@ -3,8 +3,15 @@ import passportJWT from 'passport-jwt'
 import UserModel from '../user/user.model'
 import {Request, Response, NextFunction} from 'express'
 
+/**
+ * Manages Passport.js settings. Responsible for authorization/authentication services.
+ */
 export default class PassportController{
 
+    /**
+     * Sets up Passport.js with all settings.
+     * @returns void
+     */
     static async setup(){
         
         const ExtractJwt = passportJWT.ExtractJwt
@@ -39,6 +46,12 @@ export default class PassportController{
         console.log('[PASSPORT]: setup finished.')
     }
 
+    /**
+     * Callback function. Authenticates JWT token.
+     * @param req HTTP request
+     * @param res HTTP response
+     * @param next next function
+     */
     static async auth(req: Request, res: Response, next: NextFunction){
         await passport.authenticate('jwt', {session: false})(req, res, next)
     }

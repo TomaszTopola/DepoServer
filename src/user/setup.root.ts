@@ -1,6 +1,9 @@
 import Permits from "./permits.enum"
 import userModel from "./user.model"
 
+/**
+ * Adds root user to the DB.
+ */
 class SetupRoot{
 
     async setup(){

@@ -4,19 +4,31 @@ import SDM from './sdm.enum'
 import DepoStatus from './depo.status.enum'
 
 const depoSchema = new Schema({
-    _id: {type: String},    // deposit number
-    depo_status: {type: String, enum: DepoStatus, required: true},// active/archive/utilised/utilisation in progress 
-    album: {type: String, required: true},      // owner's album number (organisation-specific ID)
+    /**
+     * Deposit number (e.g. 21-2023)
+     */
+    _id: {type: String},
+    depo_status: {type: String, enum: DepoStatus, required: true}, 
+    /**
+     * owner's album number (organisation-specific ID)
+     */
+    album: {type: String, required: true},
     first_name: {type: String, required: true},
     last_name: {type: String, required: true},
     phone: {type: String, required: true},
+    /**
+     * Front-end should suggest album @ example.com by default.
+     */
     mail: {type: String, required: true, lowercase: true, trim: true},
-    content: {type: String, required: true},    // contents of deposit
-    depo_date: {type: String, required: true},  // Date when property was deposited
-    valid_to: {type: String, required: true},   // Date when utilisation process begins
-    sdm:  {type: String, enum: SDM, required: true},       // Korab / Pasat
-    authorized_by: {type: String},         // person taking in the deposit, user ID
-    comission_chairman: {type: String},    // person responsible for deposit, user ID
+    /**
+     * Description of deposit (e.g. "fridge, 2 boxes, electric fan")
+     */
+    content: {type: String, required: true},
+    depo_date: {type: String, required: true},
+    valid_to: {type: String, required: true},
+    sdm:  {type: String, enum: SDM, required: true},
+    authorized_by: {type: String},
+    comission_chairman: {type: String},
 },
 {
     collection: 'depos',
