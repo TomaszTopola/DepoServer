@@ -76,7 +76,38 @@ export default class MailingService{
             subject: `Depozyt nr ${depo._id} w SDM ${depo.sdm}`,
             html: message,    
         })
+
     }
+
+    public async sendDepoUpdatedMessage(depo: any){
+        var keeper: any = await userModel.findById(depo.authorized_by)
+        var keeperName;
+        
+        if(!keeper) keeperName = '[404]: keeper not found.' 
+        else keeperName = `${keeper.first_name} ${keeper.last_name}`
+
+        const mailData = {
+            registeredAt: depo.depo_date,
+            depoId: depo._id,
+            SDM: depo.sdm,
+            holder: `${depo.first_name} ${depo.last_name}`,
+            keeper: keeperName,
+            validTo: depo.valid_to,
+            orgMail: process.env.ORG_CONTACT_MAIL,
+            content: depo.content
+        }
+
+        const message = await ejs.renderFile(`${process.cwd()}/assets/templates/depo-updated.ejs`, mailData)
+        .catch(err => console.log(err))
+
+        await this.transporter.sendMail({
+            from: `"DepoApp" <${process.env.SMTP_FROM_MAIL}>`,
+            to: depo.mail,
+            subject: `Depozyt nr ${depo._id} w SDM ${depo.sdm}`,
+            html: message,    
+        })
+    }
+
     /**
      * @deprecated - only use if ncecessary (for quick testing and debugging functionalities)
      */

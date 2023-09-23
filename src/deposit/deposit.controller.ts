@@ -72,6 +72,9 @@ class DepoController extends ControllerInterface{
             {new: true}
         )
         .catch(err => res.send(err))
+
+        MailingService.getInstance().sendDepoUpdatedMessage(depo)
+
         return res.status(201).send(depo)
     }
 
