@@ -4,6 +4,7 @@ import ControllerInterface from "../common/controller.interface";
 import DepoModel from "./deposit.model";
 import PermitsHandler from "../user/permits.handler";
 import MailingService from "../mailing/mailing.service";
+import statusSingleton from "../common/status.singleton";
 
 /**
  * Controlls CRUD operations on Deposit collection in MongoDB.
@@ -47,7 +48,9 @@ class DepoController extends ControllerInterface{
 
             await depo.save()
             
-            await MailingService.getInstance().sendDepoRegisteredMessage(depo)
+            if(statusSingleton.getEnableMailing()){
+                await MailingService.getInstance().sendDepoRegisteredMessage(depo)
+            }
 
             return res.status(201).send(depo)
         }catch (err: any) {

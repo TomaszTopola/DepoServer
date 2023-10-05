@@ -121,6 +121,40 @@ class UserController{
         if(!user) return res.status(404).send(`User ID ${req.params.id} not found`)
         return res.send(user)
     }
+
+
+    async setupRoot(){
+        const root = await UserModel.findById('root')
+        if(!root){
+            const root = new UserModel({
+                _id: 'root',
+                first_name: process.env.ROOT_FIRST_NAME || 'root',
+                last_name: process.env.ROOT_LAST_NAME || 'root',
+                phone: process.env.ROOT_PHONE || 'example',
+                mail: process.env.ROOT_MAIL || 'example@example.com',
+                permits: [Permits.ROOT],
+            })
+            const pass = process.env.ROOT_PASS || 'root_pass'
+            UserModel.register(root, pass)
+            .catch(err => console.log(err))
+
+            console.log('[ROOT]: registered new root account.')
+        }
+        else{
+            const user: any = await UserModel.findByIdAndUpdate(
+                'root',
+                {
+                    first_name: process.env.ROOT_FIRST_NAME || 'root',
+                    last_name: process.env.ROOT_LAST_NAME || 'root',
+                    phone: process.env.ROOT_PHONE || 'example',
+                    mail: process.env.ROOT_MAIL || 'example@example.com',
+                    password: process.env.ROOT_PASS || 'root_pass'
+                },
+            ).catch(err => console.log(err))
+
+            console.log('[ROOT]: root account updated with current credentials.')
+        }
+    }
 }
 
 export default new UserController()

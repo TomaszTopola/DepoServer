@@ -5,9 +5,10 @@ import MongoController from './common/mongo.controller'
 import DepositRouter from './deposit/deposit.router'
 import UserRouter from './user/user.router'
 import PassportController from './common/passport.controller'
-import SetupRoot from './user/setup.root'
 import MailingService from './mailing/mailing.service'
 import Scheduler from './mailing/scheduler'
+import statusSingleton from './common/status.singleton'
+import userController from './user/user.controller'
 
 const app = express()
 dotenv.config({path: './.env'})
@@ -18,6 +19,7 @@ const main = async () => {
     
     app.use(express.json())
     app.use(express.urlencoded({extended: false}))
+    app.use('/assets', express.static('public'))
 
     await PassportController.setup()
 
@@ -29,13 +31,13 @@ const main = async () => {
     new DepositRouter(app).configureRoutes()
     new UserRouter(app).configureRoutes()
 
-    new SetupRoot().setup() //TODO: refactor  (move to user.controller.ts)
+    userController.setupRoot()
 
     Scheduler.setupSchedule()
     MailingService.getInstance()
 
-    app.use('/assets', express.static('public'))
-    
+    statusSingleton.setEnableMailing(false);
+
     app.listen(process.env.HTTP, () => console.log(`[SERVER]: Listening on port ${process.env.HTTP}...`))
 
     process.on('exit', () => {

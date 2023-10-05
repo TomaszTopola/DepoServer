@@ -19,7 +19,7 @@ export default class MailingService{
         console.log('[MAILING]: mailing service initiated.')
     }
 
-    public static getInstance(){
+    public static getInstance(){        
         if(!this.instance) {
             this.instance = new MailingService();
         }
@@ -29,20 +29,24 @@ export default class MailingService{
     /**
      * Connects with SMTP host.
      */
-    private async setupConnection(){ //TODO: add try/catch for no internet, other connection errors
-        this.transporter = nodemailer.createTransport({
-            host: process.env.SMTP_HOST,
-            secureConnection: false,
-            port: process.env.SMTP_PORT,
-            tls: {
-                ciphers:'SSLv3'
-            },
-            auth: {
-                user: process.env.SMTP_USER,
-                pass: process.env.SMTP_PASS,
-            }
-        } as SMTPTransport.Options)
-        
+    private async setupConnection(){
+        try {
+            this.transporter = nodemailer.createTransport({
+                host: process.env.SMTP_HOST,
+                secureConnection: false,
+                port: process.env.SMTP_PORT,
+                tls: {
+                    ciphers:'SSLv3'
+                },
+                auth: {
+                    user: process.env.SMTP_USER,
+                    pass: process.env.SMTP_PASS,
+                }
+            } as SMTPTransport.Options)   
+        } catch (err) {
+            console.log(err)
+            console.log('[MAILING]: CONNECTION ERROR - Restart required')
+        }        
     }
 
     /**
@@ -63,22 +67,7 @@ export default class MailingService{
      */
     public async sendDepoRegisteredMessage(depo: Depo){
         
-        var keeper: any = await userModel.findById(depo.authorized_by)
-        var keeperName;
-        
-        if(!keeper) keeperName = '[404]: keeper not found.' 
-        else keeperName = `${keeper.first_name} ${keeper.last_name}`
-
-        const mailData = {
-            registeredAt: depo.depo_date,
-            depoId: depo._id,
-            SDM: depo.sdm,
-            holder: `${depo.first_name} ${depo.last_name}`,
-            keeper: keeperName,
-            validTo: depo.valid_to,
-            orgMail: process.env.ORG_CONTACT_MAIL,
-            content: depo.content
-        }
+        const mailData = await this.getMailDataFromDepo(depo)
 
         const message = await ejs.renderFile(`${process.cwd()}/assets/templates/depo-registered.ejs`, mailData)
         .catch(err => console.log(err))
@@ -97,22 +86,8 @@ export default class MailingService{
      * @param depo Deposit object
      */
     public async sendDepoUpdatedMessage(depo: any){
-        var keeper: any = await userModel.findById(depo.authorized_by)
-        var keeperName;
         
-        if(!keeper) keeperName = '[404]: keeper not found.' 
-        else keeperName = `${keeper.first_name} ${keeper.last_name}`
-
-        const mailData = {
-            registeredAt: depo.depo_date,
-            depoId: depo._id,
-            SDM: depo.sdm,
-            holder: `${depo.first_name} ${depo.last_name}`,
-            keeper: keeperName,
-            validTo: depo.valid_to,
-            orgMail: process.env.ORG_CONTACT_MAIL,
-            content: depo.content
-        }
+        const mailData = await this.getMailDataFromDepo(depo)
 
         const message = await ejs.renderFile(`${process.cwd()}/assets/templates/depo-updated.ejs`, mailData)
         .catch(err => console.log(err))
@@ -123,6 +98,51 @@ export default class MailingService{
             subject: `Depozyt nr ${depo._id} w SDM ${depo.sdm}`,
             html: message,    
         })
+    }
+
+    /**
+     * Sends warning e-mail. 
+     * @param depo Depo object
+     */
+    public async sendDeadlineWarning(depo: any){
+
+        const mailData = await this.getMailDataFromDepo(depo)
+
+        const message = await ejs.renderFile(`${process.cwd()}/assets/templates/depo-deadline-warning.ejs`, mailData)
+        .catch(err => console.log(err))
+
+        await this.transporter.sendMail({
+            from: `"DepoApp" <${process.env.SMTP_FROM_MAIL}>`,
+            to: depo.mail,
+            subject: `Depozyt nr ${depo._id} w SDM ${depo.sdm}`,
+            html: message,    
+        })
+    }
+
+    /**
+     * Transform depo into mailData object.
+     * @param depo - Deposit object
+     * @returns mailData object
+     */
+    private async getMailDataFromDepo(depo: any){
+
+        var keeper: any = await userModel.findById(depo.authorized_by)
+        var keeperName;
+        
+        if(!keeper) keeperName = '[404]: keeper not found.' 
+        else keeperName = `${keeper.first_name} ${keeper.last_name}`
+
+        return {
+            registeredAt: depo.depo_date.toLocaleString('pl-PL'),
+            depoId: depo._id,
+            SDM: depo.sdm,
+            holder: `${depo.first_name} ${depo.last_name}`,
+            keeper: keeperName,
+            validTo: depo.valid_to.toLocaleString('pl-PL'),
+            orgMail: process.env.ORG_CONTACT_MAIL,
+            content: depo.content,
+            status: depo.depo_status
+        }
     }
 
     /**

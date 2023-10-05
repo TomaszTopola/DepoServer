@@ -24,8 +24,8 @@ const depoSchema = new Schema({
      * Description of deposit (e.g. "fridge, 2 boxes, electric fan")
      */
     content: {type: String, required: true},
-    depo_date: {type: String, required: true},
-    valid_to: {type: String, required: true},
+    depo_date: {type: Date, required: true},
+    valid_to: {type: Date, required: true},
     sdm:  {type: String, enum: SDM, required: true},
     authorized_by: {type: String},
     comission_chairman: {type: String},
