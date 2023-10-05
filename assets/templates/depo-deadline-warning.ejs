@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <%- include('./common/head') %>
+        
+        <%-
+        '<style>'
+        + include('./common/style.css')
+        +'</style>'
+        %>
+
+    </head>
+    <body>
+        <%- include('./common/topbar') %>
+
+        <div class="container">
+
+            <h1>Depo #ID <%= depoId %></h1>
+            <p lang="pl">
+                <h3 class="warning">Zbliża się termin odbioru depozytu!</h3><br>
+                Jeśli nie jesteś w stanie przyjść w wyznaczonym terminie, przedłuż depozyt kontaktując się z nami pod adresem e-mail: <br> 
+                <a href="mailto:<%= orgMail %>"><%= orgMail %></a>. <br>
+                W przypadku gdy nie odbierzesz mienia w terminie, zawartość Twojego depozytu zostanie zutylizowana.
+            </p>
+            
+            <%- include('./common/depo-card') %>
+            
+            <p lang="pl">
+                Pozdrawiamy <br> <br>
+                
+                Parlament Studentów Politechniki Morskiej <br>
+                Komisja ds. Mieszkaniowych
+            </p>
+        </div>
+
+        <%- include('./common/beta-warning') %>
+        
+        <%- include('./common/footer') %>
+    </body>
+    
+    </html>

@@ -2,6 +2,11 @@ h1.warning{
     color: red;
     font-size: 16px;
 }
+
+h3.warning{
+    color: #f00;
+    font-size: 18px;
+}
 p.warning{
     color: gray;
     font-size: 12px;
@@ -62,9 +67,15 @@ ul.card{
 }
 
 .footer{
-    display: flex;
-    flex-direction: row;
     background-color: rgba(58,64,90,255);
+    padding: 10px 20px 10px 20px;
+}
+p.footer{
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    text-align: center;
+    color: white;
 }
 .parlament-logo{
     flex-grow: 1;
