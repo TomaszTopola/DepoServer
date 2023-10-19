@@ -48,10 +48,8 @@ class DepoController extends ControllerInterface{
 
             await depo.save()
             
-            if(statusSingleton.getEnableMailing()){
-                await MailingService.getInstance().sendDepoRegisteredMessage(depo)
-            }
-
+            await MailingService.getInstance().sendDepoRegisteredMessage(depo)
+            
             return res.status(201).send(depo)
         }catch (err: any) {
 

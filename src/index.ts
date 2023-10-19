@@ -36,8 +36,6 @@ const main = async () => {
     Scheduler.setupSchedule()
     MailingService.getInstance()
 
-    statusSingleton.setEnableMailing(false);
-
     app.listen(process.env.HTTP, () => console.log(`[SERVER]: Listening on port ${process.env.HTTP}...`))
 
     process.on('exit', () => {

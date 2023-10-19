@@ -3,7 +3,6 @@ class StatusSingleton {
     private static instance: StatusSingleton
 
     private dbConnectedStatus: boolean = false;
-    private enableMailing: boolean = true;
 
     private constructor() {}
 
@@ -19,16 +18,6 @@ class StatusSingleton {
     setDbConnectedStatus(status: boolean): void{
         this.dbConnectedStatus = status
     }
-
-    getEnableMailing(){
-        return this.enableMailing;
-    }
-
-    setEnableMailing(enableMailing: boolean){
-        this.enableMailing = enableMailing
-    }
-
-
 }
 
 export default StatusSingleton.getInstance()
