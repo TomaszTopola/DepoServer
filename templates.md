@@ -61,6 +61,13 @@ services:
       ROOT_PHONE: "123456789"
       ROOT_MAIL: john.doe@example.com
       ROOT_PASS: ilovebananas1234
+      ORG_CONTACT_MAIL: 
+      SMTP_FROM_MAIL: 
+      SMTP_LOG_MAIL: 
+      SMTP_HOST: 
+      SMTP_PORT: 
+      SMTP_USER: 
+      SMTP_PASS: 
     depends_on:
       - mongo_db
     restart: always
