@@ -106,18 +106,12 @@ class UserController{
     }
 
     async getAll(req: Request, res: Response){
-        if(! await PermitsHandler.checkAdminPermits(req.user)){
-            return res.status(401).send('Only admins can view users')
-        }
         const users = await UserModel.find(req.query)
         return res.send(users)
     }
 
     async getOneById(req: Request, res: Response){
-        if(!await PermitsHandler.checkAdminOrSelf(req.user, req.params.id)){
-            return res.status(401).send('Only admins can view users')
-        }
-        const user = UserModel.findById(req.params.id)
+        const user = await UserModel.findById(req.params.id)
         if(!user) return res.status(404).send(`User ID ${req.params.id} not found`)
         return res.send(user)
     }
