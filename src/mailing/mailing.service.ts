@@ -4,6 +4,7 @@ import { Depo } from '../deposit/deposit.model'
 import userModel from '../user/user.model'
 
 import ejs from 'ejs'
+import statusSingleton from '../common/status.singleton'
 
 /**
  * As the name suggests, it simply sends mail.
@@ -15,7 +16,7 @@ export default class MailingService{
 
     private constructor(){
         this.setupConnection()
-        // this.sendFoo()   //TODO: uncomment before pushing to production
+        this.sendFoo()
         console.log('[MAILING]: mailing service initiated.')
     }
 
@@ -53,6 +54,8 @@ export default class MailingService{
      * Sends startup log message 
      */
     private async sendFoo(){
+        if(!statusSingleton.enableMailLog) return
+
         await this.transporter.sendMail({
             from: `"DepoApp" <${process.env.SMTP_FROM_MAIL}>`,
             to: process.env.SMTP_LOG_MAIL,
@@ -61,12 +64,24 @@ export default class MailingService{
         })
     }
 
+    async sendStatusReport(){
+        if(!statusSingleton.enableMailLog) return
+
+        await this.transporter.sendMail({
+            from: `"DepoApp" <${process.env.SMTP_FROM_MAIL}>`,
+            to: process.env.SMTP_LOG_MAIL,
+            subject: 'DepoServer startup',
+            text: `Depo Server running... ${new Date(Date.now()).toLocaleString('pl-pl')}`
+        })
+    }
+
     /**
      * Sends a message to the owner when his property is registered in deposit.
      * @param depo Deposit object
      */
     public async sendDepoRegisteredMessage(depo: Depo){
-        
+        if(!statusSingleton.enableMailNotifications) return
+
         const mailData = await this.getMailDataFromDepo(depo)
 
         const message = await ejs.renderFile(`${process.cwd()}/assets/templates/depo-registered.ejs`, mailData)
@@ -86,7 +101,8 @@ export default class MailingService{
      * @param depo Deposit object
      */
     public async sendDepoUpdatedMessage(depo: any){
-        
+        if(!statusSingleton.enableMailNotifications) return
+
         const mailData = await this.getMailDataFromDepo(depo)
 
         const message = await ejs.renderFile(`${process.cwd()}/assets/templates/depo-updated.ejs`, mailData)
@@ -105,6 +121,7 @@ export default class MailingService{
      * @param depo Depo object
      */
     public async sendDeadlineWarning(depo: any){
+        if(!statusSingleton.enableMailNotifications) return
 
         const mailData = await this.getMailDataFromDepo(depo)
 

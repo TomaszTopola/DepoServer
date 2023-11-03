@@ -11,9 +11,21 @@ import statusSingleton from './common/status.singleton'
 import userController from './user/user.controller'
 
 const app = express()
-dotenv.config({path: './.env'})
+dotenv.config({
+    path: `./${process.env.NODE_ENV}.env`
+})
 
 const main = async () => {
+
+    if(process.env.NODE_ENV == 'development'){
+        statusSingleton.enableMailLog = false;
+        statusSingleton.enableMailNotifications = false;
+        console.log('[ENV]: Mailing disabled (development mode)');
+    }
+    else{
+        statusSingleton.enableMailLog = true;
+        statusSingleton.enableMailNotifications = true;
+    }
 
     await MongoController.setupMongo()
     

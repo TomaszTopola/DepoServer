@@ -10,8 +10,9 @@ import DepoStatus from '../deposit/depo.status.enum';
 export default class Scheduler {
     
     public static setupSchedule() {
-        // schedule.scheduleJob('00 12 * * *', this.sendStaus)
+        schedule.scheduleJob('00 12 * * *', this.sendStaus)
         schedule.scheduleJob('00 12 * * *', this.sendDeadlineWarnings)
+        // schedule.scheduleJob('00 12 * * *', this.sendOutdatedInfo) //TODO: actually implement this logic
         console.log('[SCHEDULER]: jobs are scheduled!')
     }
 
@@ -19,8 +20,7 @@ export default class Scheduler {
      * Sends daily status updates to selected e-mail.
      */
     private static sendStaus(){
-        const mailing = MailingService.getInstance()
-        const transporter = mailing.getTransporter()
+        MailingService.getInstance().sendStatusReport();
     }
 
     /**
@@ -32,7 +32,23 @@ export default class Scheduler {
             valid_to: { '$lte': sevenDaysFromNow },
             depo_status: DepoStatus.ACTIVE
         }) as [Depo]
-        console.log('outdated depos to be contacted: ' + depos)
+
+        for (const depo of depos){
+            const updatedDepo = await DepoModel.findByIdAndUpdate(
+                depo._id,
+                {'depo_status': DepoStatus.CONTACTED},
+                {new: true}
+            )
+            await MailingService.getInstance().sendDeadlineWarning(updatedDepo)
+        }
+    }
+
+    private static async sendOutdatedInfo(){
+        const sevenDaysFromNow = new Date().setDate(new Date().getDate() + 7)
+        const depos = await DepoModel.find({
+            valid_to: { '$lte': sevenDaysFromNow },
+            depo_status: DepoStatus.ACTIVE
+        }) as [Depo]
 
         for (const depo of depos){
             const updatedDepo = await DepoModel.findByIdAndUpdate(

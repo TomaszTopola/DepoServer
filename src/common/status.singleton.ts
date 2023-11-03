@@ -4,6 +4,9 @@ class StatusSingleton {
 
     private dbConnectedStatus: boolean = false;
 
+    enableMailNotifications: boolean = true;
+    enableMailLog: boolean = true;
+
     private constructor() {}
 
     public static getInstance(): StatusSingleton{
