@@ -23,6 +23,7 @@ class MongoController{
         if(this._connected) return console.log('[MONGOOSE]: Database connection established.')
         
         const mongoURL = process.env.MONGO_URL!
+        console.log(mongoURL)
         await mongoose.connect(mongoURL)
         
         mongoose.connection.on('error', (err) => {
