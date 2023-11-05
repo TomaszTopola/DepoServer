@@ -17,6 +17,8 @@ dotenv.config({
 
 const main = async () => {
 
+    console.log('[NODE_ENV]: ' + process.env.NODE_ENV)
+
     if(process.env.NODE_ENV == 'development'){
         statusSingleton.enableMailLog = false;
         statusSingleton.enableMailNotifications = false;
