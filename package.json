@@ -11,6 +11,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev-serve": "NODE_ENV='development' npx tsc -w | nodemon ./dist/index.js",
     "dev": "set NODE_ENV=development&& npx tsc -w | nodemon ./dist/index.js",
     "build": "npx tsc",
     "start": "node ./dist/index.js",
