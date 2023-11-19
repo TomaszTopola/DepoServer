@@ -25,7 +25,9 @@ class PermitsHandler{
     static async checkDepoReadPermits(user: any, depo_album?: any) : Promise<boolean>{
         if (user.permits.includes(Permits.ROOT) 
         || user.permits.includes(Permits.ADMIN) 
-        || user.permits.includes(Permits.KORAB)){
+        || user.permits.includes(Permits.KORAB)
+        || user.permits.includes(Permits.PASAT)
+        ){
             return true
         }
         if(depo_album){
