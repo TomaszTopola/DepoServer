@@ -22,3 +22,6 @@ docker-commands.txt
 .dockerignore
 docker-compose.yaml
 Dockerfile
+
+#scripts
+*.sh
